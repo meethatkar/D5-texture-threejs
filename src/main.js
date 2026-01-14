@@ -21,10 +21,13 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 const control = new OrbitControls(camera, renderer.domElement);
 control.enableDamping = true;
+control.minDistance = 2;
+control.maxDistance = 5;
+
 
 //HDRI
 const rgbeLoader = new RGBELoader();
-rgbeLoader.load("/hdri/ground.hdr", (envMap)=>{
+rgbeLoader.load("/hdri/studio.hdr", (envMap)=>{
   envMap.mapping = THREE.EquirectangularReflectionMapping;
 
   scene.environment = envMap;
@@ -33,14 +36,14 @@ rgbeLoader.load("/hdri/ground.hdr", (envMap)=>{
 
 // TEXTURE
 const textureLoader = new THREE.TextureLoader();
-const woodTexture = textureLoader.load('/texture/wood.jpg');
+const woodTexture = textureLoader.load('/texture/wood_1.png');
 
 const cube = new THREE.Mesh(
   new THREE.SphereGeometry(1, 10, 10),
   new THREE.MeshStandardMaterial({
     map: woodTexture,
-    roughness: 1,
-    metalness: 1
+    roughness: 0.8,
+    metalness: 0.2
   })
 );
 scene.add(cube);
