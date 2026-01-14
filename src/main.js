@@ -1,7 +1,7 @@
 import './style.css';
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
+import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
 
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x0b0b0b);
@@ -26,7 +26,7 @@ control.maxDistance = 5;
 
 
 //HDRI
-const rgbeLoader = new RGBELoader();
+const rgbeLoader = new HDRLoader();
 rgbeLoader.load("/hdri/studio.hdr", (envMap)=>{
   envMap.mapping = THREE.EquirectangularReflectionMapping;
 
@@ -62,3 +62,19 @@ function animate(){
   cube.rotation.x += 0.01;
 }
 animate();
+
+function isMobileView(){
+  if(window.innerWidth < 768) {
+    camera.position.z = 5;
+    camera.fov = 90;
+    camera.updateProjectionMatrix();
+  }
+}
+isMobileView();
+
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  isMobileView();
+});
